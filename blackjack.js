@@ -7,7 +7,7 @@ currentPlayer = 1;
 // create a new array of objects with keys suit, rank, and value
 function createDeck(){
   deck = new Array();
-  var suits = ["Spades", "Hearts", "Clubs", "Diamonds"];
+  var suits = ["spades", "hearts", "clubs", "diamonds"];
   var ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
   for (i = 0; i < suits.length; i++){
     for (j = 0; j < ranks.length; j++){
@@ -45,7 +45,7 @@ function createPlayers(){
     var hand = new Array();
     var total = new Number();
     players.push({
-      name: "Player " + i,
+      name: "Player" + i,
       bet: 0,
       cash: 500,
       total: total,
@@ -68,6 +68,10 @@ function dealHand(){
   for (i=0; i < 2; i++){
     players.forEach(function(player){
       player.hand.push(deck.pop())
+      var newImg = document.createElement("img");
+      document.querySelector(`#${player.name}`).appendChild(newImg);
+      newImg.src = `./cards/${player.hand[i].rank}_of_${player.hand[i].suit}.png`;
+      newImg.classList.add("col")
     })
   }
   updateTotal();
@@ -81,12 +85,18 @@ function updateTotal(){
       total += card.value;
     })
     player.total = total;
+    document.querySelector(`#${player.name}Total`).innerText = total
   })
 
 }
 
 function hit(){
   players[currentPlayer].hand.push(deck.pop())
+  var i = players[currentPlayer].hand.length - 1;
+  var newImg = document.createElement("img");
+  document.querySelector(`#${players[currentPlayer].name}`).appendChild(newImg);
+  newImg.src = `./cards/${players[currentPlayer].hand[i].rank}_of_${players[currentPlayer].hand[i].suit}.png`;
+  newImg.classList.add("col")
   updateTotal();
   isBust();
   isTwentyOne();
@@ -98,14 +108,14 @@ function stay(){
 
 function isBust(){
   if(players[currentPlayer].total > 21){
-    console.log("Bust");
+    document.querySelector(`#${players[currentPlayer].name}Total`).innerText = "Bust"
   }
 }
 
 function isBlackjack(){
   do{
     if(players[currentPlayer].total == 21){
-      console.log("Blackjack");
+      document.querySelector(`#${players[currentPlayer].name}Total`).innerText = "Blackjack"
     }
     currentPlayer = (currentPlayer + 1) % howManyPlayers;
   } while (currentPlayer != 0);
@@ -139,17 +149,26 @@ function isLowAce(){
   x = players[currentPlayer].hand.findIndex(function(element){
     return element.rank == "A";
   })
+  console.log(x);
   if(x){
     players[currentPlayer].hand[x].value = 1;
   }
   
 }
 
-createDeck();
-shuffle();
-createPlayers();
-createDealer();
-dealHand();
-dealerTurn();
+document.querySelector('#newGame').addEventListener("click", function(){
+  createDeck();
+  shuffle();
+  createPlayers();
+  createDealer();
+  dealHand();
+})
 
-console.log(players);
+document.querySelector('#hit').addEventListener("click", function(){
+  hit();
+})
+
+document.querySelector('#stay').addEventListener("click", function(){
+  currentPlayer++;
+  dealerTurn();
+})

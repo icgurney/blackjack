@@ -4,18 +4,31 @@
     <meta charset="utf-8">
     <title>Welcome to Blackjack!</title>
     <link rel="stylesheet" href="/css/master.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <style>
+    img {
+      width: 150px;
+    }
+    </style>
   </head>
   <body>
-    <h1></h1>
-
+    <h1>Blackjack</h1>
     <div>
-      <button></button>
+      <button id="newGame">New Game</button>
     </div>
 
-    <div></div>
+    <span><h2>Player Total:</h2></span>
+    <span><h2 id="Player1Total"></h2></span>
+    <button id="hit">Hit</button>
+    <button id="stay">Stay</button>
+    <div id="Player1" class="row">
+      
+    </div>
 
-    <div></div>
+    <span><h2>Dealer Total:</h2></span>
+    <span><h2 id="DealerTotal"></h2></span>
+
+    <div id="Dealer" class="row"></div>
 
     <script src="blackjack.js" charset="utf-8"></script>
   </body>
