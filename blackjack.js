@@ -85,6 +85,9 @@ function updateTotal(){
       total += card.value;
     })
     player.total = total;
+    if (total > 21){
+      isLowAce();
+    }
     document.querySelector(`#${player.name}Total`).innerText = total
   })
 
@@ -96,7 +99,7 @@ function hit(){
   var newImg = document.createElement("img");
   document.querySelector(`#${players[currentPlayer].name}`).appendChild(newImg);
   newImg.src = `./cards/${players[currentPlayer].hand[i].rank}_of_${players[currentPlayer].hand[i].suit}.png`;
-  newImg.classList.add("col")
+  newImg.classList.add("col");
   updateTotal();
   isBust();
   isTwentyOne();
@@ -134,8 +137,7 @@ function dealerTurn(){
         hit();
         updateTotal();
       }
-      else if(players[currentPlayer].total == 16){
-        isLowAce();
+      else if(players[currentPlayer].total == 16){ // this will infinitely loop if hand == 16 and !ace
         updateTotal();
         dealerTurn();
       }
@@ -146,12 +148,13 @@ function dealerTurn(){
 }
 
 function isLowAce(){
-  x = players[currentPlayer].hand.findIndex(function(element){
+  var a = players[currentPlayer].hand.findIndex(function(element){
     return element.rank == "A";
   })
-  console.log(x);
-  if(x){
-    players[currentPlayer].hand[x].value = 1;
+  console.log(a);
+  if(a){
+    players[currentPlayer].hand[a].value = 1;
+    updateTotal();
   }
   
 }
